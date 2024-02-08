@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\PasswordReset;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Laravel\Socialite\Facades\Socialite;
 
 class UserController extends Controller
 {
@@ -155,6 +156,82 @@ class UserController extends Controller
         PasswordReset::where('email', $user->email)->delete();
 
         return redirect('/user-login')->with('success', 'Password reset successfully!');
+    }
+
+    public function loginGoogle(){
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function gloginCallback(){
+        try {
+            $user = Socialite::driver('google')->user();
+
+            $is_user = User::where('email', $user->getEmail())->first();
+
+            if(!$is_user){
+                User::updateOrCreate(
+                    [
+                        'google_id' => $user->getId(),
+                    ],
+                    [
+                        'name'=>$user->getName(),
+                        'email'=>$user->getEmail(),
+                        'password'=>Hash::make($user->getName().'@'.$user->getId()),
+                    ]
+                );
+            }else{
+                $saveUser = User::where('email', $user->getEmail())->update([
+                    'google_id' => $user->getId(),
+                ]);
+
+                $saveUser = User::where('email', $user->getEmail())->first();
+
+            }
+            Auth::loginUsingId($saveUser->id);
+            return redirect()->route('dashboard');
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+    }
+
+    public function loginGithub(){
+        return Socialite::driver('github')->redirect();
+    }
+
+    public function githubCallback(){
+        try {
+            $user = Socialite::driver('github')->user();
+
+            $is_user = User::where('email', $user->getEmail())->first();
+
+            if(!$is_user){
+                User::updateOrCreate(
+                    [
+                        'github_id' => $user->getId(),
+                    ],
+                    [
+                        'name'=>$user->getName(),
+                        'email'=>$user->getEmail(),
+                        'password'=>Hash::make($user->getName().'@'.$user->getId()),
+                    ]
+                );
+            }else{
+                $saveUser = User::where('email', $user->getEmail())->update([
+                    'github_id' => $user->getId(),
+                ]);
+
+                $saveUser = User::where('email', $user->getEmail())->first();
+
+            }
+            Auth::loginUsingId($saveUser->id);
+            return redirect()->route('dashboard');
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
     }
 
 }

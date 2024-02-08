@@ -1,12 +1,15 @@
 <?php
 
+use App\Models\User;
+use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
+use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\UserController;
-use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +41,12 @@ Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('
 Route::get('/contact-us', [UserController::class, 'contact'])->name('contact');
 
 Route::get('/logout', [UserController::class, 'logout']);
+
+Route::get('/auth/google', [UserController::class, 'loginGoogle'])->name('loginGoogle');
+Route::any('/auth/google/callback', [UserController::class, 'gloginCallback'])->name('glogin');
+
+Route::get('/auth/github', [UserController::class, 'loginGithub'])->name('loginGithub');
+Route::any('/auth/callback', [UserController::class, 'githubCallback']);
 
 
 //Route::get('/register', [AuthController::class, 'loadRegister']);
