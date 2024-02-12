@@ -16,17 +16,13 @@
         <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{{ asset('blog/css/styles.css') }}" rel="stylesheet" />
-        {{-- <script type="text/javascript">
-            var url = "{{ route('changeLang') }}";
-            $(".changeLang").change(function(){
-                window.location.href = url + "?lang="+$(this).val();
-            });
-         </script> --}}
     </head>
     <body>
         @php
         $home = 'Home';
         $about = 'About';
+        $login = 'Login';
+        $register = 'Register';
         $contact = 'Contact';
         @endphp
          <!-- Navigation-->
@@ -41,8 +37,8 @@
                     <ul class="navbar-nav ms-auto py-4 py-lg-0">
                         <li class="nav-item"><a class="nav-link active px-lg-3 py-3 py-lg-4" href="{{ url('/') }}">{{ GoogleTranslate::trans($home, app()->getLocale() ) }}</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#">{{ GoogleTranslate::trans($about, app()->getLocale() ) }}</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ route('login') }}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ route('register') }}">Register</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ route('login') }}">{{ GoogleTranslate::trans($login, app()->getLocale() ) }}</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ route('register') }}">{{ GoogleTranslate::trans($register, app()->getLocale() ) }}</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ route('contact') }}">{{ GoogleTranslate::trans($contact, app()->getLocale() ) }}</a></li>
                     </ul>
 
