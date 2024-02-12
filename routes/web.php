@@ -26,6 +26,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+/* Route::get('/data', function(){
+    return "jai Shree Ram!";
+})->middleware('throttle::custom_limit'); */
+
 Route::get('/user-register', [UserController::class, 'loadRegister'])->name('register');
 Route::post('/user-register', [UserController::class, 'userRegister'])->name('userRegister');
 
@@ -47,6 +51,7 @@ Route::any('/auth/google/callback', [UserController::class, 'gloginCallback'])->
 
 Route::get('/auth/github', [UserController::class, 'loginGithub'])->name('loginGithub');
 Route::any('/auth/callback', [UserController::class, 'githubCallback']);
+Route::get('/lang/change', [UserController::class, 'Change'])->name('changeLang');
 
 
 //Route::get('/register', [AuthController::class, 'loadRegister']);
@@ -86,6 +91,7 @@ Route::group(['middleware'=>['web', 'checkUser']], function(){
     Route::get('/post-categories', [CategoryController::class, 'postCategories'])->name('postCategories');
     Route::post('/add-category', [CategoryController::class, 'addCategory'])->name('addCategory');
     Route::post('/edit-category', [CategoryController::class, 'editCategory'])->name('editCategory');
+
 
 
 });

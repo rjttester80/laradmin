@@ -38,13 +38,21 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="{{ asset('blog/js/scripts.js') }}"></script>
-<script>
-    /* $(documnet).load(function(){
+<script type="text/javascript">
+    /* $(document).load(function(){
         $('.navbar-nav').on('click', 'li', function() {
         $('.navbar-nav li.active').removeClass('active');
         $(this).addClass('active');
+    });})*/
+
+    var url = "{{ route('changeLang') }}";
+    $(".changeLang").change(function(){
+        window.location.href = url + "?lang="+$(this).val();
     });
-    }) */
+
+
+
+
 
 </script>
 </body>

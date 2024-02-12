@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PasswordReset;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -231,6 +232,15 @@ class UserController extends Controller
         } catch (\Throwable $th) {
             throw $th;
         }
+
+    }
+
+    public function Change(Request $request){
+
+        App::setLocale($request->lang);
+        session()->put('locale',$request->lang);
+
+        return redirect()->back();
 
     }
 
